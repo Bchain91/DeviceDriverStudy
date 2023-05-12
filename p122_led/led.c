@@ -6,7 +6,7 @@
 
 static unsigned long ledvalue = 15;
 
-module_param(ledvalue, int, 0);
+module_param(ledvalue, ulong , 0);
 
 #define DEBUG 1
 #define IMX_GPIO_NR(bank, nr)       (((bank) - 1) * 32 + (nr))
@@ -83,17 +83,23 @@ void led_read(unsigned long * led_data)
 
 static int led_init(void)
 {
-	led_request();
+	int ret;
+	printk(KERN_DEBUG "Hello world [ledvalue=%ld]\n", ledvalue);
+	ret = led_request();
+	if(ret<0)
+	{
+//		return -EBUSY; /* Device or resource busy */
+		return ret; 
+	}
 	led_write(ledvalue);
-	printk("Hello world [ledvalue=%ld]\n", ledvalue);
 	return 0;
 }
 
 static void led_exit(void)
 {
+	printk(KERN_DEBUG "Goodbye, world\n");
 	led_write(0);
 	led_free();
-	printk("Goodbye, world\n");
 }
 
 
