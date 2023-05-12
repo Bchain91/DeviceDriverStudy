@@ -4,7 +4,7 @@
 #include <linux/gpio.h>
 #include <linux/moduleparam.h>
 
-static int ledvalue = 15;
+static unsigned long ledvalue = 15;
 
 module_param(ledvalue, int, 0);
 
@@ -85,7 +85,7 @@ static int led_init(void)
 {
 	led_request();
 	led_write(ledvalue);
-	printk("Hello world [ledvalue=%d]\n", ledvalue);
+	printk("Hello world [ledvalue=%ld]\n", ledvalue);
 	return 0;
 }
 
