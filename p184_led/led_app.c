@@ -2,6 +2,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
+#include <sys/errno.h>
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -19,6 +20,7 @@ int main(int argc,char * argv[])
 		return 1;
 	}
 	buff = atoi(argv[1]);
+
     dev = open( DEVICE_FILENAME, O_RDWR|O_NDELAY );
 	if(dev<0)
 	{
