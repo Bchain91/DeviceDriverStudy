@@ -14,6 +14,7 @@
 #include <linux/sched.h>
 #include <asm/io.h>
 #include <linux/wait.h>
+#include <linux/string.h>
 
 #define LED_DEV_NAME "ledkeydev"
 #define LED_DEV_MAJOR 240
@@ -66,13 +67,11 @@ static int ledkey_request(struct file * filp)
 		gpio_direction_output(led[i],0); 
 	}
 	for (i = 0; i < ARRAY_SIZE(key); i++) {
-		//		ret = gpio_request(key[i], "gpio key");
 		pIsrInfo->sw_irq[i] = gpio_to_irq(key[i]);
 		if(ret<0){
 			printk("#### FAILED Request gpio %d. error : %d \n", key[i], ret);
 			break;
 		} 
-		//		gpio_direction_input(key[i]); //error led all turn off
 	}
 	return ret;
 }
@@ -130,7 +129,8 @@ static int ledkeydev_open(struct inode *inode, struct file *filp)
 	printk("ledkeydev open -> minor : %d\n", num);
 	num = MAJOR(inode->i_rdev);
 	printk("ledkeydev open -> major : %d\n", num);
-	pIsrInfo->sw_no = 0;
+//	pIsrInfo->sw_no = 0;
+	memset(pIsrInfo,0x00,sizeof(ISR_INFO));
 	filp->private_data = (void*)pIsrInfo;
 	irq_init(filp);
 
@@ -174,6 +174,7 @@ static long ledkeydev_ioctl(struct file *filp, unsigned int cmd, unsigned long a
 #endif
 	return 0x53;
 }
+		//		gpio_direction_input(key[i]); //error led all turn off
 static int ledkeydev_release(struct inode *inode, struct file *filp)
 {
 	printk("ledkeydev release \n");
