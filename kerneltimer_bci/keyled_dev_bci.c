@@ -198,12 +198,12 @@ static ssize_t ledkeydev_write(struct file *filp, const char *buf, size_t count,
 	ret = copy_from_user(&ptrmng->led,buf,count);
 	if(ret<0)
 		return -ENOMEM;	
-	led_write(ptrmng->led);
+//	led_write(ptrmng->led);
 	return count;
 }
 static long ledkeydev_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 {
-	ioctl_test_info ctrl_info = {0,0,{0}};
+	keyled_data ctrl_Info = {0};
 	KERNEL_TIMER_MANAGER* ptrmng = (KERNEL_TIMER_MANAGER*)filp->private_data;
 	int err, size;
 
@@ -231,8 +231,8 @@ static long ledkeydev_ioctl(struct file *filp, unsigned int cmd, unsigned long a
 				kerneltimer_init(filp);
 			break;
 		case TIMER_VALUE :
-			err = copy_from_user((void*)&ctrl_info,(void*)arg,size);
-			ptrmng->time_val = ctrl_info.timer_val;
+			err = copy_from_user(&ctrl_Info,(void*)arg,sizeof(keyled_data));
+			ptrmng->time_val = ctrl_Info.timer_val;
 			break;
 		default:
 			err =-E2BIG;
