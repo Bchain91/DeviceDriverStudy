@@ -231,7 +231,7 @@ static long ledkeydev_ioctl(struct file *filp, unsigned int cmd, unsigned long a
 				kerneltimer_init(filp);
 			break;
 		case TIMER_VALUE :
-			err = copy_from_user(&ctrl_Info,(void*)arg,sizeof(keyled_data));
+			err = copy_from_user(&ctrl_Info,(void*)arg,size);
 			ptrmng->time_val = ctrl_Info.timer_val;
 			break;
 		default:
@@ -262,7 +262,7 @@ static int ledkeydev_release(struct inode *inode, struct file *filp)
 	kerneltimer_exit(filp);	
 	if(filp->private_data)
 		kfree(filp->private_data);
-
+	filp->private_data = NULL;
 	return 0;
 }
 struct file_operations ledkeydev_fops =

@@ -15,6 +15,6 @@ typedef struct
 
 #define TIMER_STOP 	_IO(TIMER_MAGIC, 0) 
 #define TIMER_START	_IO(TIMER_MAGIC, 1)
-#define TIMER_VALUE	_IOWR(TIMER_MAGIC, 2,ioctl_test_info)
+#define TIMER_VALUE	_IOWR(TIMER_MAGIC, 2,keyled_data)
 #define TIMER_MAXNR			8
 #endif
