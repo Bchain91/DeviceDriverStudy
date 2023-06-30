@@ -74,24 +74,24 @@ int main(int argc, char *argv[])
 			switch(key_no) 
 			{
 				case 1:
-            		printf("TIMER STOP! \n");
-            		ioctl(dev,TIMER_STOP);
+		            		printf("TIMER STOP! \n");
+		            		ioctl(dev,TIMER_STOP);
 					break;
 				case 2:
-            		ioctl(dev,TIMER_STOP);
-            		printf("Enter timer value! \n");
+		            		ioctl(dev,TIMER_STOP);
+		            		printf("Enter timer value! \n");
 					break;
 				case 3:
-            		ioctl(dev,TIMER_STOP);
-            		printf("Enter led value! \n");
+		            		ioctl(dev,TIMER_STOP);
+		            		printf("Enter led value! \n");
 					break;
 				case 4:
-            		printf("TIMER START! \n");
-            		ioctl(dev,TIMER_START);
+		            		printf("TIMER START! \n");
+		            		ioctl(dev,TIMER_START);
 					break;
 				case 8:
-            		printf("APP CLOSE ! \n");
-            		ioctl(dev,TIMER_STOP);
+		            		printf("APP CLOSE ! \n");
+		            		ioctl(dev,TIMER_STOP);
 					loopFlag = 0;
 				break;
 
@@ -100,25 +100,23 @@ int main(int argc, char *argv[])
 		else if(Events[1].revents & POLLIN) //keyboard
 		{
     		fflush(stdin);
-			fgets(inputString,sizeof(inputString),stdin);
-			if((inputString[0] == 'q') || (inputString[0] == 'Q'))
-				break;
-			inputString[strlen(inputString)-1] = '\0';
-           
-			if(key_no == 2) //timer value
-			{
-				timer_val = atoi(inputString);
-				info.timer_val = timer_val;
-				ioctl(dev,TIMER_VALUE,&info);
-            	ioctl(dev,TIMER_START);
-				
-			}
-			else if(key_no == 3) //led value
-			{
-				led_no = (char)strtoul(inputString,NULL,16);
+		fgets(inputString,sizeof(inputString),stdin);
+		if((inputString[0] == 'q') || (inputString[0] == 'Q'))
+			break;
+		inputString[strlen(inputString)-1] = '\0';
+   
+		if(key_no == 2) //timer value
+		{
+			timer_val = atoi(inputString);
+			info.timer_val = timer_val;
+			ioctl(dev,TIMER_VALUE,&info);
+            		ioctl(dev,TIMER_START);
+		}else if(key_no == 3) //led value
+		{
+			led_no = (char)strtoul(inputString,NULL,16);
     			write(dev,&led_no,sizeof(led_no));
-            	ioctl(dev,TIMER_START);
-			}
+            		ioctl(dev,TIMER_START);
+		}
 			key_no = 0;
 		}
 	}
