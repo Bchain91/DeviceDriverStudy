@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 		return 2;
 	}
 	printf("Author:BCI\n");
-    timer_val = atoi(argv[2]);
+    	timer_val = atoi(argv[2]);
 	info.timer_val = timer_val;
 
 //	dev = open(DEVICE_FILENAME, O_RDWR | O_NONBLOCK);
@@ -48,8 +48,8 @@ int main(int argc, char *argv[])
 	}
 
 	ioctl(dev,TIMER_VALUE,&info);
-    write(dev,&led_no,sizeof(led_no));
-    ioctl(dev,TIMER_START);
+    	write(dev,&led_no,sizeof(led_no));
+    	ioctl(dev,TIMER_START);
 
 	memset( Events, 0, sizeof(Events));
 
