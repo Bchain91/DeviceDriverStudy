@@ -23,9 +23,9 @@ DECLARE_WAIT_QUEUE_HEAD(waitQueue_Read);
 
 typedef struct
 {
-	struct timer_list timer;
-	unsigned long     led;
-	int				time_val;
+	struct timer_list	timer;
+	unsigned long    	led;
+	int			time_val;
 } __attribute__ ((packed)) KERNEL_TIMER_MANAGER;
 
 
